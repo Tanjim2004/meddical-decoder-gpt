@@ -43,7 +43,13 @@ user_input = st.text_area("Enter your symptoms or question:", value=default_prom
 if st.button("Ask Free AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
-            response = flan_t5(user_input, max_length=128, do_sample=True)
+            # Stronger instruction and context for the model
+            prompt = (
+                "You are a helpful and knowledgeable medical assistant. "
+                "Answer the following question or interpret the following symptoms/report in clear, simple language:\n"
+                f"{user_input}"
+            )
+            response = flan_t5(prompt, max_length=256, do_sample=True, temperature=0.7)
             st.success(response[0]['generated_text'])
     else:
         st.warning("Please enter your symptoms or question.")
