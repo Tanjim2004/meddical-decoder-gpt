@@ -40,7 +40,7 @@ flan_t5 = load_flan_t5()
 
 default_prompt = extracted_text if extracted_text else "Describe your symptoms or ask a medical question."
 user_input = st.text_area("Enter your symptoms or question:", value=default_prompt, height=100)
-if st.button("Ask Free AI"):
+if st.button("Ask AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
             # Stronger instruction and context for the model
