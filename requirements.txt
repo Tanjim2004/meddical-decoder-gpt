@@ -3,3 +3,4 @@ pandas
 PyMuPDF
 easyocr
 transformers==4.30.2
+torch
