@@ -2,7 +2,6 @@ import streamlit as st
 from PIL import Image
 import easyocr
 import os
-
 st.set_page_config(page_title="🧬 Medical Decoder GPT", layout="centered")
 
 st.title("🧬 Medical Decoder GPT")
@@ -27,6 +26,11 @@ if uploaded_file is not None:
         st.warning("Couldn't extract text from image. Try a clearer image or a text-based scan.")
 else:
     st.info("Please upload a medical image to get started.")
+
+st.markdown("---")
+
+# --- GPT Chat Section ---
+# --- GPT Chat Section ---
 st.header("💬 Chat with Local AI (DialoGPT)")
 
 from transformers import pipeline
@@ -46,10 +50,6 @@ if st.button("Ask Local AI"):
             st.success(response[0]['generated_text'])
     else:
         st.warning("Please enter your symptoms or question.")
-st.markdown("---")
-
-# --- GPT Chat Section ---
-
 
 st.markdown("---")
 st.caption("Built by Tanjim Tanur")
