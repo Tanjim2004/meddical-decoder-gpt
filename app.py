@@ -27,9 +27,16 @@ if st.button("Ask your AI"):
                 "if asked about treatment list all the treatments in a list format:\n"
                 f"{user_input.strip()}"
             )
-            response = camel(prompt, max_length=512)
-            answer = response[0]['generated_text'].strip()
-            st.success(answer)
+            response = camel(
+                prompt,
+                max_length=512,
+                num_return_sequences=3,  # Get 3 different answers
+                do_sample=True,          # Enable sampling for diverse outputs
+                temperature=0.9          # Increase creativity
+            )
+            for idx, result in enumerate(response, 1):
+                answer = result['generated_text'].strip()
+                st.markdown(f"**Answer {idx}:**\n{answer}")
     else:
         st.warning("Please enter your symptoms or question.")
 
