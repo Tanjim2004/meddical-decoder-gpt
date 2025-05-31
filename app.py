@@ -1,7 +1,6 @@
 import streamlit as st
 from PIL import Image
 import easyocr
-import openai
 import os
 
 st.set_page_config(page_title="🧬 Medical Decoder GPT", layout="centered")
@@ -9,12 +8,6 @@ st.set_page_config(page_title="🧬 Medical Decoder GPT", layout="centered")
 st.title("🧬 Medical Decoder GPT")
 st.markdown("Upload a medical image (e.g. prescription, report, or scan) to decode it and chat with GPT about symptoms.")
 
-# --- OpenAI API Key ---
-openai_api_key = os.getenv("OPENAI_API_KEY")
-if not openai_api_key:
-    openai_api_key = st.text_input("Enter your OpenAI API key:", type="password")
-if openai_api_key:
-    openai.api_key = openai_api_key
 
 # --- OCR Section ---
 uploaded_file = st.file_uploader("📤 Upload an Image", type=["jpg", "jpeg", "png"])
