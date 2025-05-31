@@ -34,7 +34,7 @@ if st.button("Ask your AI"):
                 "Give a detailed, step-by-step answer to the following question:\n"
                 f"{user_input.strip()}"
             )
-            response = camel(prompt, max_length=1024)
+            response = camel(prompt, max_length=512)
             answer = response[0]['generated_text'].strip()
             st.success(answer)
     else:
