@@ -1,43 +1,35 @@
 import streamlit as st
 from transformers import pipeline
 
-st.set_page_config(page_title="🧬 Medical Chatbot", layout="centered")
+st.set_page_config(page_title="🩺 Clinical Camel Medical Chatbot", layout="centered")
 
-st.title("🧬 Medical Chatbot")
-st.markdown("Ask any medical question or describe your symptoms to chat with a free AI assistant.")
+st.title("🩺 Clinical Camel Medical Chatbot")
+st.markdown("Ask any medical question or describe your symptoms to chat with a free, open-source AI assistant. (For informational purposes only.)")
 
 @st.cache_resource
-def load_flan_t5():
-    return pipeline("text2text-generation", model="google/flan-t5-base")
+def load_camel():
+    return pipeline(
+        "text-generation",
+        model="Writer/camel-5b-hf",
+        device_map="auto",  # Use "cuda" for GPU, "cpu" for CPU
+        torch_dtype="auto"
+    )
 
-flan_t5 = load_flan_t5()
+camel = load_camel()
 
 user_input = st.text_area(
-    "Enter your symptoms or question:",
-    value="Describe your symptoms or ask a medical question.",
+    "Enter your medical question or symptoms:",
+    value="What are the symptoms of migraine?",
     height=100,
     key="chat_input"
 )
 
-if st.button("Ask AI"):
+if st.button("Ask Clinical Camel"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
-            # Prompt engineering for better answers
-            prompt = (
-                "You are a helpful and knowledgeable medical assistant. "
-                "Answer the following in clear, simple language:\n"
-                f"{user_input}"
-            )
-            response = flan_t5(prompt, max_length=256, do_sample=True, temperature=0.7)
-            answer = response[0]['generated_text'].strip()
-            # Remove repeated instruction if present
-            for prefix in [
-                "You are a helpful and knowledgeable medical assistant.",
-                "Answer the following in clear, simple language:",
-                "Medical question:"
-            ]:
-                if answer.lower().startswith(prefix.lower()):
-                    answer = answer[len(prefix):].strip()
+            prompt = f"### Instruction:\n{user_input.strip()}\n### Response:"
+            response = camel(prompt, max_length=256, do_sample=True, temperature=0.7)
+            answer = response[0]['generated_text'].replace(prompt, "").strip()
             st.success(answer)
     else:
         st.warning("Please enter your symptoms or question.")
