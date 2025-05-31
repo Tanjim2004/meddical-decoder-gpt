@@ -30,7 +30,7 @@ else:
 st.markdown("---")
 
 # --- Free AI Chat Section (Flan-T5) ---
-st.header("💬 Chat with Free AI (Flan-T5)")
+st.header("💬 Chat with your AI companion")
 
 @st.cache_resource
 def load_flan_t5():
