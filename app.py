@@ -34,37 +34,29 @@ if uploaded_file is not None:
         st.warning("Couldn't extract text from image. Try a clearer image or a text-based scan.")
 else:
     st.info("Please upload a medical image to get started.")
+st.header("💬 Chat with Local AI (DialoGPT)")
 
+from transformers import pipeline
+
+@st.cache_resource
+def load_chatbot():
+    return pipeline("conversational", model="microsoft/DialoGPT-medium")
+
+chatbot = load_chatbot()
+
+default_prompt = extracted_text if extracted_text else "Describe your symptoms or ask a medical question."
+user_input = st.text_area("Enter your symptoms or question:", value=default_prompt, height=100)
+if st.button("Ask Local AI"):
+    if user_input.strip():
+        with st.spinner("AI is thinking..."):
+            response = chatbot(user_input)
+            st.success(response[0]['generated_text'])
+    else:
+        st.warning("Please enter your symptoms or question.")
 st.markdown("---")
 
 # --- GPT Chat Section ---
-st.header("💬 Chat with Medical GPT")
 
-if not openai_api_key:
-    st.info("Please enter your OpenAI API key above to use the chat.")
-else:
-    # Optionally prefill with extracted text
-    default_prompt = extracted_text if extracted_text else "Describe your symptoms or ask a medical question."
-    user_input = st.text_area("Enter your symptoms or question:", value=default_prompt, height=100)
-    if st.button("Ask GPT"):
-        if user_input.strip():
-            with st.spinner("GPT is thinking..."):
-                try:
-                    response = openai.chat.completions.create(
-                        model="gpt-3.5-turbo",
-                        messages=[
-                            {"role": "system", "content": "You are a helpful medical assistant. You can help interpret medical reports and answer questions about symptoms. Always remind users to consult a real doctor for diagnosis."},
-                            {"role": "user", "content": user_input}
-                        ],
-                        max_tokens=500,
-                        temperature=0.5,
-                    )
-                    answer = response.choices[0].message.content
-                    st.success(answer)
-                except Exception as e:
-                    st.error(f"Error from OpenAI: {e}")
-        else:
-            st.warning("Please enter your symptoms or question.")
 
 st.markdown("---")
 st.caption("Built by Tanjim Tanur")
