@@ -23,7 +23,7 @@ if st.button("Ask your AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
             prompt = f"### Instruction:\n{user_input.strip()}\n### Response:"
-            response = camel(prompt, max_length=256)
+            response = camel(prompt, max_length=1024)
             answer = response[0]['generated_text'].strip()
             st.success(answer)
     else:
