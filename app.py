@@ -8,8 +8,8 @@ st.markdown("Ask any medical question or describe your symptoms to chat with a f
 
 @st.cache_resource
 def load_camel():
-   def load_camel():
     return pipeline("text2text-generation", model="google/flan-t5-base")
+
 camel = load_camel()
 
 user_input = st.text_area(
@@ -23,8 +23,8 @@ if st.button("Ask Clinical Camel"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
             prompt = f"### Instruction:\n{user_input.strip()}\n### Response:"
-            response = camel(prompt, max_length=256, do_sample=True, temperature=0.7)
-            answer = response[0]['generated_text'].replace(prompt, "").strip()
+            response = camel(prompt, max_length=256)
+            answer = response[0]['generated_text'].strip()
             st.success(answer)
     else:
         st.warning("Please enter your symptoms or question.")
