@@ -28,7 +28,7 @@ if st.button("Ask your AI"):
                 "You are able to provide detailed and accurate medical information. "
                 "You can answer questions about symptoms, diseases, treatments, and medical conditions. "
                 "dont repeat the question, just answer it. "
-                "if the question is about symptoms, the list all possible symptoms, "
+                "if the question is about symptoms, the list all possible symptoms,dont just repeat the same word. "
                 "if the question is about a disease, list all possible causes, "
                 "You can also provide advice on how to manage symptoms and when to seek medical attention. "
                 "Give a detailed, step-by-step answer to the following question:\n"
