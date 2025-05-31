@@ -23,10 +23,8 @@ if st.button("Ask your AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
             prompt = (
-                 prompt = (
                 "if askesd about sumptoms list all the symptoms in a list format, "
                 "if asked about treatment list all the treatments in a list format:\n"
-               
                 f"{user_input.strip()}"
             )
             response = camel(prompt, max_length=512)
