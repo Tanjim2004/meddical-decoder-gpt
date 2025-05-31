@@ -19,7 +19,7 @@ user_input = st.text_area(
     key="chat_input"
 )
 
-if st.button("Ask Clinical Camel"):
+if st.button("Ask your AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
             prompt = f"### Instruction:\n{user_input.strip()}\n### Response:"
