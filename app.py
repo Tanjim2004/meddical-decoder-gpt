@@ -8,13 +8,8 @@ st.markdown("Ask any medical question or describe your symptoms to chat with a f
 
 @st.cache_resource
 def load_camel():
-    return pipeline(
-        "text-generation",
-        model="Writer/camel-5b-hf",
-        device_map="auto",  # Use "cuda" for GPU, "cpu" for CPU
-        torch_dtype="auto"
-    )
-
+   def load_camel():
+    return pipeline("text2text-generation", model="google/flan-t5-base")
 camel = load_camel()
 
 user_input = st.text_area(
