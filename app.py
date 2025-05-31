@@ -23,15 +23,10 @@ if st.button("Ask your AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
             prompt = (
-                "Act as if you are a helpful medical assistant. "
-                "You are a medical expert with years of experience. "
-                "You are able to provide detailed and accurate medical information. "
-                "You can answer questions about symptoms, diseases, treatments, and medical conditions. "
-                "Don't repeat the question, just answer it. "
-                "If the question is about symptoms, list all possible symptoms, don't just repeat the same word. "
-                "If the question is about a disease, list all possible causes. "
-                "You can also provide advice on how to manage symptoms and when to seek medical attention. "
-                "Give a detailed, step-by-step answer to the following question:\n"
+                 prompt = (
+                "if askesd about sumptoms list all the symptoms in a list format, "
+                "if asked about treatment list all the treatments in a list format:\n"
+               
                 f"{user_input.strip()}"
             )
             response = camel(prompt, max_length=512)
