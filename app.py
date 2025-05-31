@@ -42,6 +42,7 @@ default_prompt = extracted_text if extracted_text else "Describe your symptoms o
 user_input = st.text_area("Enter your symptoms or question:", value=default_prompt, height=100)
 default_prompt = extracted_text if extracted_text else "Describe your symptoms or ask a medical question."
 user_input = st.text_area("Enter your symptoms or question:", value=default_prompt, height=100, key="chat_input")
+if st.button("Ask AI"):   
     if user_input.strip():
         with st.spinner("AI is thinking..."):
             prompt = f"Medical question: {user_input}"
