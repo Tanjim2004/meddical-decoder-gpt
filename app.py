@@ -22,7 +22,18 @@ user_input = st.text_area(
 if st.button("Ask your AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
-            prompt = f"### Instruction:\n{user_input.strip()}\n### Response:"
+           prompt = (
+                " Act as if You are a helpful medical assistant. "
+                "You are a medical expert with years of experience. "
+                "You are able to provide detailed and accurate medical information. "
+                "You can answer questions about symptoms, diseases, treatments, and medical conditions. "
+                "dont repeat the question, just answer it. "
+                "if the question is about symptoms, the list all possible symptoms, "
+                "if the question is about a disease, list all possible causes, "
+                "You can also provide advice on how to manage symptoms and when to seek medical attention. "
+                "Give a detailed, step-by-step answer to the following question:\n"
+                f"{user_input.strip()}"
+            )
             response = camel(prompt, max_length=1024)
             answer = response[0]['generated_text'].strip()
             st.success(answer)
