@@ -40,19 +40,19 @@ flan_t5 = load_flan_t5()
 
 default_prompt = extracted_text if extracted_text else "Describe your symptoms or ask a medical question."
 user_input = st.text_area("Enter your symptoms or question:", value=default_prompt, height=100)
+default_prompt = extracted_text if extracted_text else "Describe your symptoms or ask a medical question."
+user_input = st.text_area("Enter your symptoms or question:", value=default_prompt, height=100)
 if st.button("Ask AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
-            # Stronger instruction and context for the model
-            prompt = (
-                "You are a helpful and knowledgeable medical assistant. "
-                "Answer the following question or interpret the following symptoms/report in clear, simple language:\n"
-                f"{user_input}"
-            )
+            prompt = f"Medical question: {user_input}"
             response = flan_t5(prompt, max_length=256, do_sample=True, temperature=0.7)
-            st.success(response[0]['generated_text'])
+            answer = response[0]['generated_text']
+            # Remove repeated instruction if present
+            if answer.lower().startswith("medical question:"):
+                answer = answer[len("medical question:"):].strip()
+            st.success(answer)
     else:
         st.warning("Please enter your symptoms or question.")
-
 st.markdown("---")
 st.caption("Built by Tanjim Tanur")
