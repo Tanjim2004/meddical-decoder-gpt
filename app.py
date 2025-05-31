@@ -1,11 +1,12 @@
 import streamlit as st
 from PIL import Image
 import easyocr
-import os
+from transformers import pipeline
+
 st.set_page_config(page_title="🧬 Medical Decoder GPT", layout="centered")
 
 st.title("🧬 Medical Decoder GPT")
-st.markdown("Upload a medical image (e.g. prescription, report, or scan) to decode it and chat with GPT about symptoms.")
+st.markdown("Upload a medical image (e.g. prescription, report, or scan) to decode it and chat with a free AI about symptoms.")
 
 # --- OCR Section ---
 uploaded_file = st.file_uploader("📤 Upload an Image", type=["jpg", "jpeg", "png"])
@@ -28,23 +29,21 @@ else:
 
 st.markdown("---")
 
-# --- GPT Chat Section ---
-st.header("💬 Chat with Local AI (DialoGPT)")
-
-from transformers import pipeline
+# --- Free AI Chat Section (Flan-T5) ---
+st.header("💬 Chat with Free AI (Flan-T5)")
 
 @st.cache_resource
-def load_chatbot():
-    return pipeline("text-generation", model="microsoft/DialoGPT-medium")
+def load_flan_t5():
+    return pipeline("text2text-generation", model="google/flan-t5-base")
 
-chatbot = load_chatbot()
+flan_t5 = load_flan_t5()
 
 default_prompt = extracted_text if extracted_text else "Describe your symptoms or ask a medical question."
 user_input = st.text_area("Enter your symptoms or question:", value=default_prompt, height=100)
-if st.button("Ask Local AI"):
+if st.button("Ask Free AI"):
     if user_input.strip():
         with st.spinner("AI is thinking..."):
-            response = chatbot(user_input, max_length=100)
+            response = flan_t5(user_input, max_length=128, do_sample=True)
             st.success(response[0]['generated_text'])
     else:
         st.warning("Please enter your symptoms or question.")
