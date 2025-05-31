@@ -3,7 +3,7 @@ from transformers import pipeline
 
 st.set_page_config(page_title="🩺 Clinical Camel Medical Chatbot", layout="centered")
 
-st.title("🩺 Clinical Camel Medical Chatbot")
+st.title("🩺  Medical Chatbot")
 st.markdown("Ask any medical question or describe your symptoms to chat with a free, open-source AI assistant. (For informational purposes only.)")
 
 @st.cache_resource
